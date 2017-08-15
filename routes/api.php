@@ -1,8 +1,5 @@
 <?php
 
-use Illuminate\Http\Request;
-
-
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -14,6 +11,19 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::middleware(['auth:api'])->get('/users', function (Request $request) {
-    return response()->json(['message' => 'it worked!!']);
+Route::middleware(['auth:api'])->group(function () {
+
+    /**
+     * Galaxy
+     */
+    Route::resource('galaxy', 'GalaxyController');
+    Route::post('galaxy/invite/{permalink}', 'InviteController@process')->name('process');
+    Route::get('invite/accept/{permalink}/{token}', 'InviteController@accept')->name('accept');
+
+    /**
+     * User
+     */
+    Route::get('me', 'UserController@me');
+    Route::get('me/galaxies', 'UserController@joinedGalaxies');
+
 });

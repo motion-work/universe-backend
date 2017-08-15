@@ -33,6 +33,11 @@ class User extends Authenticatable
         'password', 'remember_token',
     ];
 
+    public function scopeJoinedGalaxies($query)
+    {
+        return auth()->user()->galaxies();
+    }
+
     /**
      * Auto hash password
      *
@@ -48,6 +53,6 @@ class User extends Authenticatable
      */
     public function galaxies()
     {
-        return $this->belongsToMany(Galaxy::class);
+        return $this->belongsToMany(Galaxy::class)->withTimestamps();
     }
 }
