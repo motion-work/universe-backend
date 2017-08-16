@@ -8,16 +8,6 @@ use Illuminate\Http\Request;
 class UserController extends Controller
 {
 
-    public function me()
-    {
-        return response()->json(auth()->user());
-    }
-
-    public function joinedGalaxies()
-    {
-        return response()->json(User::joinedGalaxies()->get());
-    }
-
     /**
      * Display a listing of the resource.
      *

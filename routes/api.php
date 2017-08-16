@@ -11,6 +11,7 @@
 |
 */
 
+
 Route::middleware(['auth:api'])->group(function () {
 
     /**
@@ -21,9 +22,9 @@ Route::middleware(['auth:api'])->group(function () {
     Route::get('invite/accept/{permalink}/{token}', 'InviteController@accept')->name('accept');
 
     /**
-     * User
+     * Auth
      */
-    Route::get('me', 'UserController@me');
-    Route::get('me/galaxies', 'UserController@joinedGalaxies');
+    Route::get('me', 'AuthController@me');
+    Route::get('me/galaxies', 'AuthController@joinedGalaxies');
 
 });

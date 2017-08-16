@@ -18,7 +18,7 @@ class CreateUsersTable extends Migration
             $table->string('firstName');
             $table->string('lastName');
             $table->string('job_title');
-            $table->string('profile_image');
+            $table->string('profile_image')->nullable();
             $table->string('email')->unique();
             $table->string('password');
             $table->rememberToken();
