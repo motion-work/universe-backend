@@ -17,7 +17,7 @@ class UsersTableSeeder extends Seeder
             'lastName'      => 'Administrator',
             'job_title'     => 'God',
             'profile_image' => '',
-            'email'         => 'system.administrator@example.com',
+            'email'         => 'admin@universe.rocketstart.ch',
             'password'      => 'secret',
         ]);
     }

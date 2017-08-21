@@ -33,6 +33,18 @@ class User extends Authenticatable
         'password', 'remember_token',
     ];
 
+    protected $appends = ['fullName'];
+
+    /**
+     * Concatenate first and last name
+     *
+     * @return string
+     */
+    public function getFullNameAttribute()
+    {
+        return $this->attributes['firstName'] . ' ' . $this->attributes['lastName'];
+    }
+
     public function scopeJoinedGalaxies($query)
     {
         return auth()->user()->galaxies();
