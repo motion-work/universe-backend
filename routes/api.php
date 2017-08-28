@@ -21,6 +21,16 @@ Route::middleware(['auth:api'])->group(function () {
     Route::post('galaxy/invite/{permalink}', 'InviteController@process')->name('process');
     Route::get('invite/accept/{permalink}/{token}', 'InviteController@accept')->name('accept');
 
+    Route::prefix('galaxy')->group(function () {
+        Route::post('{permalink}/createSkillSet', 'GalaxyController@storeSkillSet');
+        Route::get('{permalink}/skillSets', 'GalaxyController@getSkillSets');
+    });
+
+    /**
+     * Skill Set
+     */
+    Route::resource('skill', 'SkillSetController');
+
     /**
      * Auth
      */

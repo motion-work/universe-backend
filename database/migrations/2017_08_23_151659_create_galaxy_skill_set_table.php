@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateGalaxyUserTable extends Migration
+class CreateGalaxySkillSetTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,17 +13,15 @@ class CreateGalaxyUserTable extends Migration
      */
     public function up()
     {
-        Schema::create('galaxy_user', function (Blueprint $table) {
+        Schema::create('galaxy_skill_set', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('galaxy_id')->unsigned();
-            $table->integer('user_id')->unsigned();
-            $table->boolean('is_owner')->default(0);
+            $table->integer('skill_set_id')->unsigned();
             $table->timestamps();
 
             $table->foreign('galaxy_id')->references('id')->on('galaxies');
-            $table->foreign('user_id')->references('id')->on('users');
+            $table->foreign('skill_set_id')->references('id')->on('skill_sets');
         });
-
     }
 
     /**
@@ -33,7 +31,6 @@ class CreateGalaxyUserTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('galaxy_user');
+        Schema::dropIfExists('create_galaxy_skill_set_table');
     }
-
 }

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreNewSkillSetRequest;
 use App\Models\Galaxy;
 use Illuminate\Http\Request;
 
@@ -30,7 +31,8 @@ class GalaxyController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request $request
+     *
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -42,10 +44,32 @@ class GalaxyController extends Controller
         return response()->json($galaxy);
     }
 
+    public function storeSkillSet(StoreNewSkillSetRequest $request, $permalink)
+    {
+
+        $skillSet = Galaxy::wherePermalink($permalink)->first()->skillSets()->create([
+            'user_id'     => auth()->user()->id,
+            'name'        => $request->get('name'),
+            'description' => $request->get('description'),
+        ]);
+
+        if($skillSet) $skillSet->skillSetItems()->create($request->get('skills')[0]);
+
+        return $skillSet;
+    }
+
+    public function getSkillSets($permalink)
+    {
+        $skillSets = Galaxy::wherePermalink($permalink)->first()->skillSets()->get();
+
+        return $skillSets;
+    }
+
     /**
      * Display the specified resource.
      *
      * @param  $galaxy
+     *
      * @return \Illuminate\Http\Response
      */
     public function show($galaxy)
@@ -58,7 +82,8 @@ class GalaxyController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Galaxy  $galaxy
+     * @param  \App\Models\Galaxy $galaxy
+     *
      * @return \Illuminate\Http\Response
      */
     public function edit(Galaxy $galaxy)
@@ -69,8 +94,9 @@ class GalaxyController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Galaxy  $galaxy
+     * @param  \Illuminate\Http\Request $request
+     * @param  \App\Models\Galaxy       $galaxy
+     *
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, Galaxy $galaxy)
@@ -81,11 +107,13 @@ class GalaxyController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Galaxy  $galaxy
+     * @param  \App\Models\Galaxy $galaxy
+     *
      * @return \Illuminate\Http\Response
      */
     public function destroy(Galaxy $galaxy)
     {
         //
     }
+
 }

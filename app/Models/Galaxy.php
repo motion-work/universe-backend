@@ -44,4 +44,9 @@ class Galaxy extends Model
         return $this->hasMany(Invite::class);
     }
 
+    public function skillSets()
+    {
+        return $this->belongsToMany(SkillSet::class)->withTimestamps();
+    }
+
 }
