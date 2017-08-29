@@ -2,12 +2,20 @@
 
 namespace App\Models;
 
+use Conner\Tagging\Taggable;
 use Illuminate\Database\Eloquent\Model;
 
 class SkillSet extends Model
 {
+    use Taggable;
+
     protected $fillable = ['user_id', 'name', 'description', 'permalink', 'cover_image'];
 
+    /**
+     * Auto generate permalink
+     *
+     * @param $value
+     */
     public function setNameAttribute($value)
     {
         $this->attributes['name'] = $value;

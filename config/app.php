@@ -178,6 +178,9 @@ return [
         App\Providers\RouteServiceProvider::class,
         Laravel\Passport\PassportServiceProvider::class,
         Barryvdh\Cors\ServiceProvider::class,
+        Conner\Tagging\Providers\TaggingServiceProvider::class,
+        Laravel\Scout\ScoutServiceProvider::class,
+
 
     ],
 

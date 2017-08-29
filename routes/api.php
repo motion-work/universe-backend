@@ -32,6 +32,11 @@ Route::middleware(['auth:api'])->group(function () {
     Route::resource('skill', 'SkillSetController');
 
     /**
+     * Tag
+     */
+    Route::resource('tag', 'TagController');
+
+    /**
      * Auth
      */
     Route::get('me', 'AuthController@me');
