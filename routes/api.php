@@ -24,6 +24,7 @@ Route::middleware(['auth:api'])->group(function () {
     Route::prefix('galaxy')->group(function () {
         Route::post('{permalink}/createSkillSet', 'GalaxyController@storeSkillSet');
         Route::get('{permalink}/skillSets', 'GalaxyController@getSkillSets');
+        Route::get('{permalink}/skillSet/{skillSetPermalink}', 'GalaxyController@getSkillSet');
     });
 
     /**

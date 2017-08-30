@@ -61,7 +61,11 @@ class GalaxyController extends Controller
             'description' => $request->get('description'),
         ]);
 
+        // Store skill set items
         if($skillSet) $skillSet->skillSetItems()->createMany($request->get('skills'));
+
+        // Store skill set tags
+        $skillSet->retag($request->get('tags'));
 
         return $skillSet;
     }
@@ -75,9 +79,25 @@ class GalaxyController extends Controller
      */
     public function getSkillSets($permalink)
     {
-        $skillSets = Galaxy::wherePermalink($permalink)->first()->skillSets()->with(['user'])->get();
+        $skillSets = Galaxy::wherePermalink($permalink)->first()->skillSets()->with(['user', 'tagged'])->get();
 
         return $skillSets;
+    }
+
+    /**
+     * Get a specific skill set
+     *
+     * @param $permalink
+     * @param $skillSetPermalink
+     *
+     * @return mixed
+     */
+    public function getSkillSet($permalink, $skillSetPermalink)
+    {
+        $skillSet = Galaxy::wherePermalink($permalink)->first()
+            ->skillSets()->wherePermalink($skillSetPermalink)->with(['skillSetItems', 'user', 'tagged'])->first();
+
+        return $skillSet;
     }
 
     /**

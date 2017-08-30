@@ -27,6 +27,7 @@ class StoreNewSkillSetRequest extends FormRequest
             'name'        => 'required',
             'description' => 'required|max:2000',
             'skills'      => 'required',
+            'tags'        => 'required',
         ];
     }
 }
