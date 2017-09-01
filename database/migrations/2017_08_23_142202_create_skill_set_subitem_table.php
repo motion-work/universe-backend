@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateSkillSetItemsTable extends Migration
+class CreateSkillSetSubitemTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,14 @@ class CreateSkillSetItemsTable extends Migration
      */
     public function up()
     {
-        Schema::create('skill_set_items', function (Blueprint $table) {
+        Schema::create('skill_set_subitems', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('skill_set_id')->unsigned();
+            $table->integer('skill_set_item_id')->unsigned();
             $table->string('title');
+            $table->text('description')->nullable();
             $table->timestamps();
 
-            $table->foreign('skill_set_id')->references('id')->on('skill_sets');
+            $table->foreign('skill_set_item_id')->references('id')->on('skill_set_items');
         });
     }
 
@@ -30,6 +31,6 @@ class CreateSkillSetItemsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('skill_set_items');
+        Schema::dropIfExists('skill_set_subitem_table');
     }
 }

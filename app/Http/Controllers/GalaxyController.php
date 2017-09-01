@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreNewSkillSetRequest;
 use App\Models\Galaxy;
+use App\Models\SkillSetItem;
+use App\Services\UnsplashService;
+use function foo\func;
 use Illuminate\Http\Request;
 
 class GalaxyController extends Controller
@@ -49,20 +52,25 @@ class GalaxyController extends Controller
      *
      * @param StoreNewSkillSetRequest $request
      * @param                         $permalink
+     * @param UnsplashService         $unsplashService
      *
      * @return mixed
      */
-    public function storeSkillSet(StoreNewSkillSetRequest $request, $permalink)
+    public function storeSkillSet(StoreNewSkillSetRequest $request, $permalink, UnsplashService $unsplashService)
     {
-
         $skillSet = Galaxy::wherePermalink($permalink)->first()->skillSets()->create([
             'user_id'     => auth()->user()->id,
             'name'        => $request->get('name'),
             'description' => $request->get('description'),
+            'cover_image' => $unsplashService->saveRandomImage()
         ]);
 
-        // Store skill set items
-        if($skillSet) $skillSet->skillSetItems()->createMany($request->get('skills'));
+        foreach ($request->skills as $skillItem) {
+            $item = $skillSet->skillSetItems()->create($skillItem);
+            foreach ($skillItem['subitems'] as $subitem) {
+                $item->skillSetSubItems()->create($subitem);
+            }
+        }
 
         // Store skill set tags
         $skillSet->retag($request->get('tags'));
@@ -85,7 +93,7 @@ class GalaxyController extends Controller
     }
 
     /**
-     * Get a specific skill set
+     * Get a specific skill
      *
      * @param $permalink
      * @param $skillSetPermalink
@@ -95,7 +103,9 @@ class GalaxyController extends Controller
     public function getSkillSet($permalink, $skillSetPermalink)
     {
         $skillSet = Galaxy::wherePermalink($permalink)->first()
-            ->skillSets()->wherePermalink($skillSetPermalink)->with(['skillSetItems', 'user', 'tagged'])->first();
+            ->skillSets()->wherePermalink($skillSetPermalink)
+            ->with(['user', 'tagged', 'skillSetItems', 'skillSetItems.skillSetSubitems'])
+            ->first();
 
         return $skillSet;
     }
