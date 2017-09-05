@@ -26,13 +26,14 @@ class Galaxy extends Model
     }
 
     /**
+     * Galaxy can many members
+     *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
     public function users()
     {
         return $this->belongsToMany(User::class)->withTimestamps();
     }
-
 
     /**
      * Galaxy has many invites
@@ -44,6 +45,9 @@ class Galaxy extends Model
         return $this->hasMany(Invite::class);
     }
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
     public function skillSets()
     {
         return $this->belongsToMany(SkillSet::class)->withTimestamps();

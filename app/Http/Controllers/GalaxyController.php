@@ -4,9 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreNewSkillSetRequest;
 use App\Models\Galaxy;
-use App\Models\SkillSetItem;
 use App\Services\UnsplashService;
-use function foo\func;
 use Illuminate\Http\Request;
 
 class GalaxyController extends Controller
@@ -58,7 +56,7 @@ class GalaxyController extends Controller
      */
     public function storeSkillSet(StoreNewSkillSetRequest $request, $permalink, UnsplashService $unsplashService)
     {
-        $skillSet = Galaxy::wherePermalink($permalink)->first()->skillSets()->create([
+        $skillSet = Galaxy::wherePermalink($permalink)->firstOrFail()->skillSets()->create([
             'user_id'     => auth()->user()->id,
             'name'        => $request->get('name'),
             'description' => $request->get('description'),
@@ -87,7 +85,8 @@ class GalaxyController extends Controller
      */
     public function getSkillSets($permalink)
     {
-        $skillSets = Galaxy::wherePermalink($permalink)->first()->skillSets()->with(['user', 'tagged'])->get();
+        $skillSets = Galaxy::wherePermalink($permalink)->firstOrFail()->skillSets()
+            ->with(['author', 'tagged'])->get();
 
         return $skillSets;
     }
@@ -104,7 +103,7 @@ class GalaxyController extends Controller
     {
         $skillSet = Galaxy::wherePermalink($permalink)->first()
             ->skillSets()->wherePermalink($skillSetPermalink)
-            ->with(['user', 'tagged', 'skillSetItems', 'skillSetItems.skillSetSubitems'])
+            ->with(['author', 'tagged', 'skillSetItems', 'skillSetItems.skillSetSubitems'])
             ->first();
 
         return $skillSet;

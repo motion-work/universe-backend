@@ -46,6 +46,14 @@ class User extends Authenticatable
         return $this->attributes['firstName'] . ' ' . $this->attributes['lastName'];
     }
 
+
+    /**
+     * Get all the galaxies which the user joined
+     *
+     * @param $query
+     *
+     * @return mixed
+     */
     public function scopeJoinedGalaxies($query)
     {
         return auth()->user()->galaxies();
@@ -62,10 +70,32 @@ class User extends Authenticatable
     }
 
     /**
+     * User can create many galaxies
+     *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
     public function galaxies()
     {
         return $this->belongsToMany(Galaxy::class)->withTimestamps();
+    }
+
+    /**
+     * User can create many skill sets
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function skillSets()
+    {
+        return $this->hasMany(SkillSet::class);
+    }
+
+    /**
+     * User can subscribe to many skill sets
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function subscribedSkillSets()
+    {
+        return $this->belongsToMany(SkillSet::class, 'skill_set_subscriber', 'user_id', 'skill_set_id');
     }
 }

@@ -23,11 +23,13 @@ class SkillSet extends Model
     }
 
     /**
+     * Skill set has one creator/author
+     *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function user()
+    public function author()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'user_id');
     }
 
     /**
@@ -38,6 +40,9 @@ class SkillSet extends Model
         return $this->belongsTo(Galaxy::class);
     }
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
     public function galaxies()
     {
         return $this->belongsToMany(Galaxy::class)->withTimestamps();
@@ -49,6 +54,16 @@ class SkillSet extends Model
     public function skillSetItems()
     {
         return $this->hasMany(SkillSetItem::class);
+    }
+
+    /**
+     * Skill sets can have many subscribers
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function subscribers()
+    {
+        return $this->belongsToMany(User::class, 'skill_set_subscriber', 'skill_set_id', 'user_id');
     }
 
 }

@@ -28,9 +28,10 @@ Route::middleware(['auth:api'])->group(function () {
     });
 
     /**
-     * Skill Set
+     * User
      */
-    Route::resource('skill', 'SkillSetController');
+    Route::post('user/skillSet/{id}/subscribe', 'UserController@subscribeToSkillSet');
+    Route::post('user/skillSet/{id}/unsubscribe', 'UserController@unsubscribeToSkillSet');
 
     /**
      * Tag
