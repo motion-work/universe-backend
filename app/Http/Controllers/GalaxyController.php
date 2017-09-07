@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreNewSkillSetRequest;
+use App\Http\Resources\SkillSetResource;
 use App\Models\Galaxy;
 use App\Services\UnsplashService;
 use Illuminate\Http\Request;
@@ -72,39 +73,6 @@ class GalaxyController extends Controller
 
         // Store skill set tags
         $skillSet->retag($request->get('tags'));
-
-        return $skillSet;
-    }
-
-    /**
-     * Get all skill sets from this galaxy
-     *
-     * @param $permalink
-     *
-     * @return mixed
-     */
-    public function getSkillSets($permalink)
-    {
-        $skillSets = Galaxy::wherePermalink($permalink)->firstOrFail()->skillSets()
-            ->with(['author', 'tagged'])->get();
-
-        return $skillSets;
-    }
-
-    /**
-     * Get a specific skill
-     *
-     * @param $permalink
-     * @param $skillSetPermalink
-     *
-     * @return mixed
-     */
-    public function getSkillSet($permalink, $skillSetPermalink)
-    {
-        $skillSet = Galaxy::wherePermalink($permalink)->first()
-            ->skillSets()->wherePermalink($skillSetPermalink)
-            ->with(['author', 'tagged', 'skillSetItems', 'skillSetItems.skillSetSubitems'])
-            ->first();
 
         return $skillSet;
     }

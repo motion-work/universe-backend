@@ -4,10 +4,11 @@ namespace App\Models;
 
 use Conner\Tagging\Taggable;
 use Illuminate\Database\Eloquent\Model;
+use Laravel\Scout\Searchable;
 
 class SkillSet extends Model
 {
-    use Taggable;
+    use Taggable, Searchable;
 
     protected $fillable = ['user_id', 'name', 'description', 'permalink', 'cover_image'];
 

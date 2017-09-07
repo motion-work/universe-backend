@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\User;
 use Illuminate\Http\Request;
 
 class UserController extends Controller
@@ -32,6 +31,11 @@ class UserController extends Controller
         auth()->user()->subscribedSkillSets()->detach($id);
 
         response()->json('successfully unsubscribed to skill set');
+    }
+
+    public function mySkills()
+    {
+        return auth()->user()->subscribedSkillSets()->get();
     }
 
 }
