@@ -35,13 +35,15 @@ Route::middleware(['auth:api'])->group(function () {
      */
     Route::get('skillSets', 'SkillSetController@getSkillSets');
     Route::get('skillSet/{skillSetPermalink}', 'SkillSetController@getSkillSet');
+    Route::get('skillSet/{skillSetPermalink}/subscribed', 'SkillSetController@subscribed');
 
     /**
      * User
      */
     Route::post('user/skillSet/{id}/subscribe', 'UserController@subscribeToSkillSet');
     Route::post('user/skillSet/{id}/unsubscribe', 'UserController@unsubscribeToSkillSet');
-    Route::get('user/my-skills', 'UserController@mySkills');
+    Route::get('user/subscribedSkillSets', 'UserController@subscribedSkillSets');
+    Route::get('user/createdSkillSets', 'UserController@createdSkillSets');
 
     /**
      * Tag

@@ -37,4 +37,21 @@ class SkillSetController extends Controller
 
         return new SkillSetResource($skillSet);
     }
+
+
+    /**
+     * Get the skill set which the user subscribed to
+     *
+     * @param $permalink
+     *
+     * @return mixed
+     */
+    public function subscribed($permalink)
+    {
+        $skillSet = SkillSet::wherePermalink($permalink)
+            ->with(['author', 'tagged', 'skillSetItems', 'skillSetItems.skillSetSubitems'])
+            ->firstOrFail();
+
+        return $skillSet;
+    }
 }

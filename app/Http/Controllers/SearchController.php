@@ -9,6 +9,6 @@ class SearchController extends Controller
 {
     public function skillSets($query)
     {
-        return SkillSet::search($query)->get();
+        return SkillSet::search($query)->get(12)->load('author');
     }
 }

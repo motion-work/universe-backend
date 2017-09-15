@@ -13,6 +13,18 @@ class SkillSet extends Model
     protected $fillable = ['user_id', 'name', 'description', 'permalink', 'cover_image'];
 
     /**
+     * Get the indexable data array for the model.
+     *
+     * @return array
+     */
+    public function toSearchableArray()
+    {
+        $array = $this->toArray();
+
+        return $array;
+    }
+
+    /**
      * Auto generate permalink
      *
      * @param $value

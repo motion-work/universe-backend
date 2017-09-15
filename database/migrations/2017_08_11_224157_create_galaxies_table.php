@@ -16,7 +16,10 @@ class CreateGalaxiesTable extends Migration
         Schema::create('galaxies', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
+            $table->string('cover_image')->nullable();
+            $table->text('description')->nullable();
             $table->string('permalink')->unique();
+            $table->boolean('public')->default(false);
             $table->timestamps();
         });
     }

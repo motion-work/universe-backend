@@ -33,9 +33,16 @@ class UserController extends Controller
         response()->json('successfully unsubscribed to skill set');
     }
 
-    public function mySkills()
+    public function subscribedSkillSets()
     {
-        return auth()->user()->subscribedSkillSets()->get();
+        return auth()->user()->subscribedSkillSets()
+            ->with(['author', 'skillSetItems'])
+            ->get();
+    }
+
+    public function createdSkillSets()
+    {
+        return auth()->user()->skillSets()->with(['skillSetItems'])->get();
     }
 
 }
